@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Plus, Folder, Link as LinkIcon, Search, X } from 'lucide-react';
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { Dialog } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog";
 
 interface Link {
   id: string;
@@ -56,81 +56,75 @@ const AddLinkDialog = ({ open, onOpenChange, onSuccess }: {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
-        <div className="bg-secondary p-6 rounded-lg w-full max-w-md relative">
-          <button
-            onClick={() => onOpenChange(false)}
-            className="absolute right-4 top-4 text-white/70 hover:text-white"
-          >
-            <X className="w-5 h-5" />
-          </button>
+      <DialogContent className="bg-secondary sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Add New Link</DialogTitle>
+        </DialogHeader>
+        
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label htmlFor="title" className="block text-sm font-medium mb-1">
+              Title
+            </label>
+            <input
+              id="title"
+              type="text"
+              required
+              value={formData.title}
+              onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
+              className="w-full p-2 rounded-lg bg-secondary-light border border-white/10 focus:border-primary focus:outline-none"
+              placeholder="Enter link title"
+            />
+          </div>
           
-          <h2 className="text-xl font-semibold mb-4">Add New Link</h2>
+          <div>
+            <label htmlFor="url" className="block text-sm font-medium mb-1">
+              URL
+            </label>
+            <input
+              id="url"
+              type="url"
+              required
+              value={formData.url}
+              onChange={(e) => setFormData(prev => ({ ...prev, url: e.target.value }))}
+              className="w-full p-2 rounded-lg bg-secondary-light border border-white/10 focus:border-primary focus:outline-none"
+              placeholder="https://example.com"
+            />
+          </div>
           
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label htmlFor="title" className="block text-sm font-medium mb-1">
-                Title
-              </label>
-              <input
-                id="title"
-                type="text"
-                required
-                value={formData.title}
-                onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-                className="w-full p-2 rounded-lg bg-secondary-light border border-white/10 focus:border-primary focus:outline-none"
-                placeholder="Enter link title"
-              />
-            </div>
-            
-            <div>
-              <label htmlFor="url" className="block text-sm font-medium mb-1">
-                URL
-              </label>
-              <input
-                id="url"
-                type="url"
-                required
-                value={formData.url}
-                onChange={(e) => setFormData(prev => ({ ...prev, url: e.target.value }))}
-                className="w-full p-2 rounded-lg bg-secondary-light border border-white/10 focus:border-primary focus:outline-none"
-                placeholder="https://example.com"
-              />
-            </div>
-            
-            <div>
-              <label htmlFor="description" className="block text-sm font-medium mb-1">
-                Description (optional)
-              </label>
-              <textarea
-                id="description"
-                value={formData.description}
-                onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-                className="w-full p-2 rounded-lg bg-secondary-light border border-white/10 focus:border-primary focus:outline-none"
-                placeholder="Enter link description"
-                rows={3}
-              />
-            </div>
-            
-            <div className="flex justify-end gap-3 mt-6">
+          <div>
+            <label htmlFor="description" className="block text-sm font-medium mb-1">
+              Description (optional)
+            </label>
+            <textarea
+              id="description"
+              value={formData.description}
+              onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+              className="w-full p-2 rounded-lg bg-secondary-light border border-white/10 focus:border-primary focus:outline-none"
+              placeholder="Enter link description"
+              rows={3}
+            />
+          </div>
+          
+          <div className="flex justify-end gap-3 mt-6">
+            <DialogClose asChild>
               <button
                 type="button"
-                onClick={() => onOpenChange(false)}
                 className="btn-secondary"
               >
                 Cancel
               </button>
-              <button
-                type="submit"
-                disabled={loading}
-                className="btn-primary"
-              >
-                {loading ? 'Adding...' : 'Add Link'}
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
+            </DialogClose>
+            <button
+              type="submit"
+              disabled={loading}
+              className="btn-primary"
+            >
+              {loading ? 'Adding...' : 'Add Link'}
+            </button>
+          </div>
+        </form>
+      </DialogContent>
     </Dialog>
   );
 };
