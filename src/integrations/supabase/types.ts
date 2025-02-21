@@ -203,6 +203,69 @@ export type Database = {
           },
         ]
       }
+      collection_links: {
+        Row: {
+          collection_id: string
+          created_at: string | null
+          link_id: string
+        }
+        Insert: {
+          collection_id: string
+          created_at?: string | null
+          link_id: string
+        }
+        Update: {
+          collection_id?: string
+          created_at?: string | null
+          link_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "collection_links_collection_id_fkey"
+            columns: ["collection_id"]
+            isOneToOne: false
+            referencedRelation: "collections"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "collection_links_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "links"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      collections: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: string
+          is_public: boolean | null
+          name: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_public?: boolean | null
+          name: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_public?: boolean | null
+          name?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       context_types: {
         Row: {
           context_id: number
@@ -350,6 +413,39 @@ export type Database = {
         }
         Relationships: []
       }
+      links: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: string
+          tags: string[] | null
+          title: string
+          updated_at: string | null
+          url: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          tags?: string[] | null
+          title: string
+          updated_at?: string | null
+          url: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          tags?: string[] | null
+          title?: string
+          updated_at?: string | null
+          url?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       lists_items: {
         Row: {
           id: number
@@ -469,6 +565,33 @@ export type Database = {
         Update: {
           id?: number
           sub_cat_name?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string | null
+          full_name: string | null
+          id: string
+          updated_at: string | null
+          username: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string | null
+          full_name?: string | null
+          id: string
+          updated_at?: string | null
+          username?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string | null
+          full_name?: string | null
+          id?: string
+          updated_at?: string | null
+          username?: string | null
         }
         Relationships: []
       }
