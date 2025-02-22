@@ -104,12 +104,12 @@ const AddLinkDialog = ({ open, onOpenChange, onSuccess }: {
       if (formData.context_id || formData.resource_id || formData.function_id) {
         const { error: classError } = await supabase
           .from('site_classifications')
-          .insert([{
-            site_id: linkData.id,
-            context_id: formData.context_id || null,
-            resource_id: formData.resource_id || null,
-            function_id: formData.function_id || null
-          }]);
+          .insert({
+            site_id: parseInt(linkData.id),
+            context_id: formData.context_id ? parseInt(formData.context_id) : null,
+            resource_id: formData.resource_id ? parseInt(formData.resource_id) : null,
+            function_id: formData.function_id ? parseInt(formData.function_id) : null
+          });
 
         if (classError) throw classError;
       }
