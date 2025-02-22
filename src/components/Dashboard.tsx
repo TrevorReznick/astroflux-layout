@@ -102,14 +102,21 @@ const AddLinkDialog = ({ open, onOpenChange, onSuccess }: {
 
       // Then create the classification if context/resource/function are selected
       if (formData.context_id || formData.resource_id || formData.function_id) {
+        const classificationData: {
+          site_id: number;
+          context_id?: number | null;
+          resource_id?: number | null;
+          function_id?: number | null;
+        } = {
+          site_id: Number(linkData.id),
+          ...(formData.context_id && { context_id: Number(formData.context_id) }),
+          ...(formData.resource_id && { resource_id: Number(formData.resource_id) }),
+          ...(formData.function_id && { function_id: Number(formData.function_id) })
+        };
+
         const { error: classError } = await supabase
           .from('site_classifications')
-          .insert({
-            site_id: parseInt(linkData.id),
-            context_id: formData.context_id ? parseInt(formData.context_id) : null,
-            resource_id: formData.resource_id ? parseInt(formData.resource_id) : null,
-            function_id: formData.function_id ? parseInt(formData.function_id) : null
-          });
+          .insert(classificationData);
 
         if (classError) throw classError;
       }
