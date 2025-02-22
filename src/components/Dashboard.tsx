@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Plus, Folder, Link as LinkIcon, Search, Briefcase, Code2, User, FolderKanban } from 'lucide-react';
 import { supabase } from "@/integrations/supabase/client";
@@ -11,9 +10,6 @@ interface Link {
   url: string;
   description: string | null;
   created_at: string;
-  environment?: string;
-  resource_type?: string;
-  function_type?: string;
 }
 
 interface Collection {
@@ -23,62 +19,23 @@ interface Collection {
   is_public: boolean;
 }
 
-const applicationObj = {
-  name: "Environment Selector",
-  environments: [
-    {
-      name: "Production",
-      icon: "Briefcase",
-      resourceTypes: [
-        { resource_id: 1, name: "infrastructure", description: "Risorse infrastrutturali" },
-        { resource_id: 2, name: "framework", description: "Framework e librerie" },
-        { resource_id: 3, name: "platform", description: "Piattaforme" },
-        { resource_id: 4, name: "database", description: "Database" },
-        { resource_id: 5, name: "hosting", description: "Servizi Hosting" },
-        { resource_id: 6, name: "platform", description: "Applicazione" }
-      ],
-      functionsTypes: [
-        { function_id: 1, name: "service", description: "Servizi web" },
-        { function_id: 2, name: "tool", description: "Strumenti" },
-        { function_id: 3, name: "api", description: "Interfacce di programmazione" },
-        { function_id: 4, name: "provider", description: "Fornitori di servizi" }
-      ]
-    },
-    {
-      name: "Development",
-      icon: "Code2",
-      resourceTypes: [
-        { resource_id: 1, name: "infrastructure", description: "Risorse infrastrutturali" },
-        { resource_id: 2, name: "framework", description: "Framework e librerie" },
-        { resource_id: 3, name: "platform", description: "Piattaforme" },
-        { resource_id: 4, name: "database", description: "Database" },
-        { resource_id: 5, name: "hosting", description: "Servizi Hosting" },
-        { resource_id: 6, name: "platform", description: "Applicazione" }
-      ],
-      functionsTypes: [
-        { function_id: 1, name: "service", description: "Servizi web" },
-        { function_id: 2, name: "tool", description: "Strumenti" },
-        { function_id: 3, name: "api", description: "Interfacce di programmazione" },
-        { function_id: 4, name: "provider", description: "Fornitori di servizi" }
-      ]
-    },
-    {
-      name: "Personal",
-      icon: "User",
-      resourceTypes: [
-        { resource_id: 7, name: "favorite", description: "Favoriti" },
-        { resource_id: 8, name: "todo", description: "Todo" },
-        { resource_id: 9, name: "readlater", description: "Read Later" },
-        { resource_id: 10, name: "generic", description: "Generic" }
-      ]
-    },
-    {
-      name: "Portfolio",
-      icon: "FolderKanban",
-      resourceTypes: []
-    }
-  ]
-};
+interface ResourceType {
+  resource_id: number;
+  name: string;
+  description: string;
+}
+
+interface FunctionType {
+  function_id: number;
+  name: string;
+  description: string;
+}
+
+interface ContextType {
+  context_id: number;
+  name: string;
+  description: string;
+}
 
 const AddLinkDialog = ({ open, onOpenChange, onSuccess }: { 
   open: boolean; 
@@ -90,24 +47,72 @@ const AddLinkDialog = ({ open, onOpenChange, onSuccess }: {
     title: '',
     url: '',
     description: '',
-    environment: '',
-    resource_type: '',
-    function_type: ''
+    context_id: '',
+    resource_id: '',
+    function_id: ''
   });
 
-  const selectedEnv = applicationObj.environments.find(env => env.name === formData.environment);
+  const [contexts, setContexts] = useState<ContextType[]>([]);
+  const [resourceTypes, setResourceTypes] = useState<ResourceType[]>([]);
+  const [functionTypes, setFunctionTypes] = useState<FunctionType[]>([]);
+
+  useEffect(() => {
+    const fetchTypes = async () => {
+      // Fetch contexts (environments)
+      const { data: contextData } = await supabase
+        .from('context_types')
+        .select('*');
+      
+      // Fetch resource types
+      const { data: resourceData } = await supabase
+        .from('resource_types')
+        .select('*');
+      
+      // Fetch function types
+      const { data: functionData } = await supabase
+        .from('function_types')
+        .select('*');
+
+      if (contextData) setContexts(contextData);
+      if (resourceData) setResourceTypes(resourceData);
+      if (functionData) setFunctionTypes(functionData);
+    };
+
+    fetchTypes();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const { error } = await supabase.from('links').insert([{
-        ...formData,
-        user_id: (await supabase.auth.getUser()).data.user?.id
-      }]);
+      // First insert the link
+      const { data: linkData, error: linkError } = await supabase
+        .from('links')
+        .insert([{
+          title: formData.title,
+          url: formData.url,
+          description: formData.description,
+          user_id: (await supabase.auth.getUser()).data.user?.id
+        }])
+        .select()
+        .single();
 
-      if (error) throw error;
+      if (linkError) throw linkError;
+
+      // Then create the classification if context/resource/function are selected
+      if (formData.context_id || formData.resource_id || formData.function_id) {
+        const { error: classError } = await supabase
+          .from('site_classifications')
+          .insert([{
+            site_id: linkData.id,
+            context_id: formData.context_id || null,
+            resource_id: formData.resource_id || null,
+            function_id: formData.function_id || null
+          }]);
+
+        if (classError) throw classError;
+      }
 
       toast.success('Link added successfully');
       onSuccess();
@@ -116,9 +121,9 @@ const AddLinkDialog = ({ open, onOpenChange, onSuccess }: {
         title: '', 
         url: '', 
         description: '',
-        environment: '',
-        resource_type: '',
-        function_type: ''
+        context_id: '',
+        resource_id: '',
+        function_id: ''
       });
     } catch (error: any) {
       toast.error(error.message);
@@ -166,70 +171,61 @@ const AddLinkDialog = ({ open, onOpenChange, onSuccess }: {
           </div>
 
           <div>
-            <label htmlFor="environment" className="block text-sm font-medium mb-1">
+            <label htmlFor="context_id" className="block text-sm font-medium mb-1">
               Environment
             </label>
             <select
-              id="environment"
-              value={formData.environment}
-              onChange={(e) => setFormData(prev => ({ 
-                ...prev, 
-                environment: e.target.value,
-                resource_type: '',
-                function_type: ''
-              }))}
+              id="context_id"
+              value={formData.context_id}
+              onChange={(e) => setFormData(prev => ({ ...prev, context_id: e.target.value }))}
               className="w-full p-2 rounded-lg bg-secondary-light border border-white/10 focus:border-primary focus:outline-none"
             >
               <option value="">Select environment</option>
-              {applicationObj.environments.map((env) => (
-                <option key={env.name} value={env.name}>
-                  {env.name}
+              {contexts.map((context) => (
+                <option key={context.context_id} value={context.context_id}>
+                  {context.name}
                 </option>
               ))}
             </select>
           </div>
 
-          {selectedEnv?.resourceTypes && selectedEnv.resourceTypes.length > 0 && (
-            <div>
-              <label htmlFor="resource_type" className="block text-sm font-medium mb-1">
-                Resource Type
-              </label>
-              <select
-                id="resource_type"
-                value={formData.resource_type}
-                onChange={(e) => setFormData(prev => ({ ...prev, resource_type: e.target.value }))}
-                className="w-full p-2 rounded-lg bg-secondary-light border border-white/10 focus:border-primary focus:outline-none"
-              >
-                <option value="">Select resource type</option>
-                {selectedEnv.resourceTypes.map((type) => (
-                  <option key={type.resource_id} value={type.name}>
-                    {type.description}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
+          <div>
+            <label htmlFor="resource_id" className="block text-sm font-medium mb-1">
+              Resource Type
+            </label>
+            <select
+              id="resource_id"
+              value={formData.resource_id}
+              onChange={(e) => setFormData(prev => ({ ...prev, resource_id: e.target.value }))}
+              className="w-full p-2 rounded-lg bg-secondary-light border border-white/10 focus:border-primary focus:outline-none"
+            >
+              <option value="">Select resource type</option>
+              {resourceTypes.map((type) => (
+                <option key={type.resource_id} value={type.resource_id}>
+                  {type.description}
+                </option>
+              ))}
+            </select>
+          </div>
 
-          {selectedEnv?.functionsTypes && selectedEnv.functionsTypes.length > 0 && (
-            <div>
-              <label htmlFor="function_type" className="block text-sm font-medium mb-1">
-                Function Type
-              </label>
-              <select
-                id="function_type"
-                value={formData.function_type}
-                onChange={(e) => setFormData(prev => ({ ...prev, function_type: e.target.value }))}
-                className="w-full p-2 rounded-lg bg-secondary-light border border-white/10 focus:border-primary focus:outline-none"
-              >
-                <option value="">Select function type</option>
-                {selectedEnv.functionsTypes.map((type) => (
-                  <option key={type.function_id} value={type.name}>
-                    {type.description}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
+          <div>
+            <label htmlFor="function_id" className="block text-sm font-medium mb-1">
+              Function Type
+            </label>
+            <select
+              id="function_id"
+              value={formData.function_id}
+              onChange={(e) => setFormData(prev => ({ ...prev, function_id: e.target.value }))}
+              className="w-full p-2 rounded-lg bg-secondary-light border border-white/10 focus:border-primary focus:outline-none"
+            >
+              <option value="">Select function type</option>
+              {functionTypes.map((type) => (
+                <option key={type.function_id} value={type.function_id}>
+                  {type.description}
+                </option>
+              ))}
+            </select>
+          </div>
           
           <div>
             <label htmlFor="description" className="block text-sm font-medium mb-1">
