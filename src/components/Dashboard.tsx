@@ -1,5 +1,6 @@
+
 import { useState, useEffect } from 'react';
-import { Plus, Folder, Link as LinkIcon, Search, X } from 'lucide-react';
+import { Plus, Folder, Link as LinkIcon, Search, Briefcase, Code2, User, FolderKanban } from 'lucide-react';
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog";
@@ -10,6 +11,9 @@ interface Link {
   url: string;
   description: string | null;
   created_at: string;
+  environment?: string;
+  resource_type?: string;
+  function_type?: string;
 }
 
 interface Collection {
@@ -18,6 +22,63 @@ interface Collection {
   description: string | null;
   is_public: boolean;
 }
+
+const applicationObj = {
+  name: "Environment Selector",
+  environments: [
+    {
+      name: "Production",
+      icon: "Briefcase",
+      resourceTypes: [
+        { resource_id: 1, name: "infrastructure", description: "Risorse infrastrutturali" },
+        { resource_id: 2, name: "framework", description: "Framework e librerie" },
+        { resource_id: 3, name: "platform", description: "Piattaforme" },
+        { resource_id: 4, name: "database", description: "Database" },
+        { resource_id: 5, name: "hosting", description: "Servizi Hosting" },
+        { resource_id: 6, name: "platform", description: "Applicazione" }
+      ],
+      functionsTypes: [
+        { function_id: 1, name: "service", description: "Servizi web" },
+        { function_id: 2, name: "tool", description: "Strumenti" },
+        { function_id: 3, name: "api", description: "Interfacce di programmazione" },
+        { function_id: 4, name: "provider", description: "Fornitori di servizi" }
+      ]
+    },
+    {
+      name: "Development",
+      icon: "Code2",
+      resourceTypes: [
+        { resource_id: 1, name: "infrastructure", description: "Risorse infrastrutturali" },
+        { resource_id: 2, name: "framework", description: "Framework e librerie" },
+        { resource_id: 3, name: "platform", description: "Piattaforme" },
+        { resource_id: 4, name: "database", description: "Database" },
+        { resource_id: 5, name: "hosting", description: "Servizi Hosting" },
+        { resource_id: 6, name: "platform", description: "Applicazione" }
+      ],
+      functionsTypes: [
+        { function_id: 1, name: "service", description: "Servizi web" },
+        { function_id: 2, name: "tool", description: "Strumenti" },
+        { function_id: 3, name: "api", description: "Interfacce di programmazione" },
+        { function_id: 4, name: "provider", description: "Fornitori di servizi" }
+      ]
+    },
+    {
+      name: "Personal",
+      icon: "User",
+      resourceTypes: [
+        { resource_id: 7, name: "favorite", description: "Favoriti" },
+        { resource_id: 8, name: "todo", description: "Todo" },
+        { resource_id: 9, name: "readlater", description: "Read Later" },
+        { resource_id: 10, name: "generic", description: "Generic" }
+      ]
+    },
+    {
+      name: "Portfolio",
+      icon: "FolderKanban",
+      resourceTypes: []
+    }
+  ]
+};
 
 const AddLinkDialog = ({ open, onOpenChange, onSuccess }: { 
   open: boolean; 
@@ -28,8 +89,13 @@ const AddLinkDialog = ({ open, onOpenChange, onSuccess }: {
   const [formData, setFormData] = useState({
     title: '',
     url: '',
-    description: ''
+    description: '',
+    environment: '',
+    resource_type: '',
+    function_type: ''
   });
+
+  const selectedEnv = applicationObj.environments.find(env => env.name === formData.environment);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,7 +112,14 @@ const AddLinkDialog = ({ open, onOpenChange, onSuccess }: {
       toast.success('Link added successfully');
       onSuccess();
       onOpenChange(false);
-      setFormData({ title: '', url: '', description: '' });
+      setFormData({ 
+        title: '', 
+        url: '', 
+        description: '',
+        environment: '',
+        resource_type: '',
+        function_type: ''
+      });
     } catch (error: any) {
       toast.error(error.message);
     } finally {
@@ -91,6 +164,72 @@ const AddLinkDialog = ({ open, onOpenChange, onSuccess }: {
               placeholder="https://example.com"
             />
           </div>
+
+          <div>
+            <label htmlFor="environment" className="block text-sm font-medium mb-1">
+              Environment
+            </label>
+            <select
+              id="environment"
+              value={formData.environment}
+              onChange={(e) => setFormData(prev => ({ 
+                ...prev, 
+                environment: e.target.value,
+                resource_type: '',
+                function_type: ''
+              }))}
+              className="w-full p-2 rounded-lg bg-secondary-light border border-white/10 focus:border-primary focus:outline-none"
+            >
+              <option value="">Select environment</option>
+              {applicationObj.environments.map((env) => (
+                <option key={env.name} value={env.name}>
+                  {env.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {selectedEnv?.resourceTypes && selectedEnv.resourceTypes.length > 0 && (
+            <div>
+              <label htmlFor="resource_type" className="block text-sm font-medium mb-1">
+                Resource Type
+              </label>
+              <select
+                id="resource_type"
+                value={formData.resource_type}
+                onChange={(e) => setFormData(prev => ({ ...prev, resource_type: e.target.value }))}
+                className="w-full p-2 rounded-lg bg-secondary-light border border-white/10 focus:border-primary focus:outline-none"
+              >
+                <option value="">Select resource type</option>
+                {selectedEnv.resourceTypes.map((type) => (
+                  <option key={type.resource_id} value={type.name}>
+                    {type.description}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          {selectedEnv?.functionsTypes && selectedEnv.functionsTypes.length > 0 && (
+            <div>
+              <label htmlFor="function_type" className="block text-sm font-medium mb-1">
+                Function Type
+              </label>
+              <select
+                id="function_type"
+                value={formData.function_type}
+                onChange={(e) => setFormData(prev => ({ ...prev, function_type: e.target.value }))}
+                className="w-full p-2 rounded-lg bg-secondary-light border border-white/10 focus:border-primary focus:outline-none"
+              >
+                <option value="">Select function type</option>
+                {selectedEnv.functionsTypes.map((type) => (
+                  <option key={type.function_id} value={type.name}>
+                    {type.description}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
           
           <div>
             <label htmlFor="description" className="block text-sm font-medium mb-1">
