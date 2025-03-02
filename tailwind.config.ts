@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -32,6 +31,20 @@ export default {
         accent: {
           DEFAULT: "#A855F7",
           light: "#C084FC",
+        },
+        page: {
+          background: "#0F172A",
+          text: "#FFFFFF",
+        },
+        card: {
+          background: "rgba(30, 41, 59, 0.3)",
+          border: "rgba(255, 255, 255, 0.1)",
+        },
+        button: {
+          primary: "#7C3AED",
+          primaryHover: "#6D28D9",
+          secondary: "#1E293B",
+          secondaryHover: "rgba(255, 255, 255, 0.1)",
         },
       },
       keyframes: {
