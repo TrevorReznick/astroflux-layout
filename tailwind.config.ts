@@ -23,29 +23,40 @@ export default {
           DEFAULT: "#7C3AED",
           hover: "#6D28D9",
           light: "#A855F7",
+          foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
           DEFAULT: "#0F172A",
           light: "#1E293B",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
         },
         accent: {
           DEFAULT: "#A855F7",
           light: "#C084FC",
+          foreground: "hsl(var(--accent-foreground))",
         },
-        page: {
-          background: "#0F172A",
-          text: "#FFFFFF",
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
         },
         card: {
-          background: "rgba(30, 41, 59, 0.3)",
+          DEFAULT: "rgba(30, 41, 59, 0.3)",
+          foreground: "hsl(var(--card-foreground))",
           border: "rgba(255, 255, 255, 0.1)",
         },
-        button: {
-          primary: "#7C3AED",
-          primaryHover: "#6D28D9",
-          secondary: "#1E293B",
-          secondaryHover: "rgba(255, 255, 255, 0.1)",
-        },
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
       },
       keyframes: {
         "fade-in": {
