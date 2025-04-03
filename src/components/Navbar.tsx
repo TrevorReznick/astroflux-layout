@@ -2,11 +2,13 @@
 import { useState, useEffect } from 'react';
 import { Menu, LogOut } from 'lucide-react';
 import { supabase } from "@/integrations/supabase/client";
+import { useNavigate } from 'react-router-dom';
 import { toast } from "sonner";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState<any>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Get initial session
@@ -28,8 +30,7 @@ const Navbar = () => {
     try {
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
-      // Instead of using navigate, redirect with window.location
-      window.location.href = '/auth';
+      navigate('/auth');
     } catch (error: any) {
       toast.error(error.message);
     }
@@ -55,9 +56,9 @@ const Navbar = () => {
                 Sign Out
               </button>
             ) : (
-              <a href="/auth" className="btn-primary inline-block">
+              <button onClick={() => navigate('/auth')} className="btn-primary">
                 Sign In
-              </a>
+              </button>
             )}
           </div>
           
@@ -80,9 +81,9 @@ const Navbar = () => {
                   Sign Out
                 </button>
               ) : (
-                <a href="/auth" className="btn-primary block text-center">
+                <button onClick={() => navigate('/auth')} className="btn-primary w-full">
                   Sign In
-                </a>
+                </button>
               )}
             </div>
           </div>
