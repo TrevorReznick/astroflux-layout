@@ -22,14 +22,14 @@ const Landing = () => (
       <div className="container mx-auto text-center">
         <div className="max-w-3xl mx-auto">
           <h1 className="text-5xl font-bold mb-6 animate-fade-in">
-            AI-Powered Workflow Assistant
+            Organize Your Digital Resources
           </h1>
           <p className="text-xl text-white/80 mb-8 animate-fade-in">
-            Streamline your production, amplify your creativity.
+            Save, organize, and access your favorite links from anywhere.
           </p>
           <div className="flex flex-wrap justify-center gap-4 animate-fade-in">
             <button className="btn-primary">Get Started</button>
-            <button className="btn-secondary">Download</button>
+            <button className="btn-secondary">Learn More</button>
           </div>
         </div>
       </div>
@@ -42,43 +42,43 @@ const Landing = () => (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <FeatureCard
             icon={Zap}
-            title="Strong empathy"
-            description="Understand and connect with your audience effectively"
+            title="Quick Access"
+            description="Find all your important links in one place"
           />
           <FeatureCard
             icon={Box}
-            title="Effortless updates"
-            description="Keep your content fresh with seamless updates"
+            title="Smart Collections"
+            description="Organize your links into custom collections"
           />
           <FeatureCard
             icon={Trophy}
-            title="Conquer the best"
-            description="Stay ahead of the competition with cutting-edge tools"
+            title="Best Practices"
+            description="Discover the most effective ways to organize"
           />
           <FeatureCard
             icon={Users}
-            title="Designing for people"
-            description="Create experiences that users love"
+            title="Collaboration"
+            description="Share collections with teammates and friends"
           />
           <FeatureCard
             icon={ThumbsUp}
-            title="Simple and affordable"
-            description="Get premium features at accessible prices"
+            title="Simple Interface"
+            description="Easy-to-use dashboard with intuitive controls"
           />
           <FeatureCard
             icon={Monitor}
-            title="Get freelance work"
-            description="Connect with potential clients easily"
+            title="Cross-device Access"
+            description="Use on any device with your account"
           />
           <FeatureCard
             icon={ShoppingBag}
-            title="Sell your goods"
-            description="Set up your online store effortlessly"
+            title="Resource Management"
+            description="Keep all your digital resources organized"
           />
           <FeatureCard
             icon={Rocket}
-            title="Launch faster"
-            description="Accelerate your project deployment"
+            title="Productivity Boost"
+            description="Save time finding what you need when you need it"
           />
         </div>
       </div>
