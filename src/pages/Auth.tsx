@@ -1,8 +1,7 @@
-
 import { useState } from 'react';
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { GitHub, Mail, LogIn } from "lucide-react";
+import { Github, Mail, LogIn } from "lucide-react";
 
 const Auth = () => {
   const [email, setEmail] = useState('');
@@ -137,7 +136,7 @@ const Auth = () => {
             className="btn-secondary flex items-center justify-center gap-2"
             disabled={loading}
           >
-            <GitHub className="w-4 h-4" />
+            <Github className="w-4 h-4" />
             GitHub
           </button>
           
