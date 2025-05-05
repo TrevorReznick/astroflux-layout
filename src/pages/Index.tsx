@@ -70,7 +70,8 @@ const Landing = () => (
             description="Get intelligent suggestions for new resources based on your interests."
           />
         </div>
-      </section>
+      </div>
+    </section>
 
     {/* Manage Resources Section */}
     <section className="py-20 px-6">
