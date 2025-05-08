@@ -1,12 +1,13 @@
 
-import { Plus, Folder, Search } from 'lucide-react';
+import { Plus, Folder, Search, ListChecks } from 'lucide-react';
 
 interface QuickActionsProps {
   onAddLink: () => void;
   onAddCollection: () => void;
+  onAddList: () => void;
 }
 
-const QuickActions = ({ onAddLink, onAddCollection }: QuickActionsProps) => {
+const QuickActions = ({ onAddLink, onAddCollection, onAddList }: QuickActionsProps) => {
   return (
     <div className="flex flex-wrap gap-4 mb-8">
       <button 
@@ -22,6 +23,13 @@ const QuickActions = ({ onAddLink, onAddCollection }: QuickActionsProps) => {
       >
         <Folder className="w-4 h-4" />
         New Collection
+      </button>
+      <button 
+        className="btn-secondary flex items-center gap-2"
+        onClick={onAddList}
+      >
+        <ListChecks className="w-4 h-4" />
+        New List
       </button>
       <div className="flex-grow">
         <div className="relative max-w-md ml-auto">
