@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { supabase } from "@/integrations/supabase/client";
@@ -26,7 +25,7 @@ const ListDetail = () => {
         const { data: listData, error: listError } = await supabase
           .from('lists_users')
           .select('*')
-          .eq('id', id)
+          .eq('id', parseInt(id))
           .single();
         
         if (listError) throw listError;

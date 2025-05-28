@@ -1,5 +1,6 @@
 
-import { Plus, Folder, Search, ListChecks } from 'lucide-react';
+import { Plus, Folder, Search, ListChecks, Eye } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface QuickActionsProps {
   onAddLink: () => void;
@@ -8,6 +9,8 @@ interface QuickActionsProps {
 }
 
 const QuickActions = ({ onAddLink, onAddCollection, onAddList }: QuickActionsProps) => {
+  const navigate = useNavigate();
+
   return (
     <div className="flex flex-wrap gap-4 mb-8">
       <button 
@@ -30,6 +33,13 @@ const QuickActions = ({ onAddLink, onAddCollection, onAddList }: QuickActionsPro
       >
         <ListChecks className="w-4 h-4" />
         New List
+      </button>
+      <button 
+        className="btn-secondary flex items-center gap-2"
+        onClick={() => navigate('/links')}
+      >
+        <Eye className="w-4 h-4" />
+        Esplora Links
       </button>
       <div className="flex-grow">
         <div className="relative max-w-md ml-auto">
