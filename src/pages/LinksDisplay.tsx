@@ -1,8 +1,7 @@
-
 import { useState, useEffect } from 'react';
 import { supabase } from "@/integrations/supabase/client";
 import Navbar from '../components/Navbar';
-import { Search, ExternalLink, Calendar, Tag } from 'lucide-react';
+import { Search, ExternalLink, Calendar, Tag, Heart } from 'lucide-react';
 
 interface Link {
   id: number;
@@ -69,9 +68,9 @@ const LinksDisplay = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen flex flex-col">
       <Navbar />
-      <div className="container mx-auto px-4 pt-24 pb-12">
+      <div className="container mx-auto px-4 pt-24 pb-12 flex-grow">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold mb-4">Esplora i Link</h1>
@@ -167,6 +166,50 @@ const LinksDisplay = () => {
           </div>
         )}
       </div>
+
+      {/* Footer */}
+      <footer className="glass-card mt-12 border-t border-white/10">
+        <div className="container mx-auto px-4 py-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div className="md:col-span-2">
+              <h3 className="text-xl font-bold mb-4">Openfav</h3>
+              <p className="text-white/70 mb-4">
+                La piattaforma per organizzare e scoprire le migliori risorse del web. 
+                Gestisci i tuoi link preferiti e trova nuove risorse utili.
+              </p>
+              <div className="flex items-center gap-2 text-sm text-white/60">
+                <span>Fatto con</span>
+                <Heart className="w-4 h-4 text-red-500" />
+                <span>per la community</span>
+              </div>
+            </div>
+            
+            <div>
+              <h4 className="font-semibold mb-4">Link Utili</h4>
+              <ul className="space-y-2 text-white/70">
+                <li><a href="/" className="hover:text-white transition-colors">Home</a></li>
+                <li><a href="/links" className="hover:text-white transition-colors">Esplora Links</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Come funziona</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Chi siamo</a></li>
+              </ul>
+            </div>
+            
+            <div>
+              <h4 className="font-semibold mb-4">Supporto</h4>
+              <ul className="space-y-2 text-white/70">
+                <li><a href="#" className="hover:text-white transition-colors">Contatti</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">FAQ</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Privacy</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Termini</a></li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="border-t border-white/10 mt-8 pt-8 text-center text-white/50 text-sm">
+            <p>&copy; 2024 Openfav. Tutti i diritti riservati.</p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
