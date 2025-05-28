@@ -66,7 +66,7 @@ const LinksDisplay = () => {
         </div>
       </div>
     );
-  }
+  };
 
   return (
     <div className="min-h-screen">
@@ -133,7 +133,7 @@ const LinksDisplay = () => {
 
                 {/* Tags */}
                 <div className="flex flex-wrap gap-2 mb-3">
-                  <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-primary/20 text-primary text-xs">
+                  <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-orange-500 text-white text-xs font-medium">
                     <Tag className="w-3 h-3" />
                     Website
                   </span>
