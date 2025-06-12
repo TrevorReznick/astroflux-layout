@@ -1,5 +1,6 @@
 
 import UserDropdown from './UserDropdown';
+import { ThemeToggle } from '../ThemeToggle';
 
 interface AuthenticatedNavProps {
   user: any;
@@ -14,6 +15,7 @@ const AuthenticatedNav = ({ user }: AuthenticatedNavProps) => {
         <a href="/links" className="text-white/80 hover:text-white transition-colors">Esplora Links</a>
         <a href="#" className="text-white/80 hover:text-white transition-colors">About Us</a>
         <a href="#" className="text-white/80 hover:text-white transition-colors">Contacts</a>
+        <ThemeToggle />
         <UserDropdown user={user} />
       </div>
     </>

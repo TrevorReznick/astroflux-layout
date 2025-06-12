@@ -1,5 +1,6 @@
 
 import { useNavigate } from 'react-router-dom';
+import { ThemeToggle } from '../ThemeToggle';
 
 const UnauthenticatedNav = () => {
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ const UnauthenticatedNav = () => {
         <a href="#" className="text-white/80 hover:text-white transition-colors">How it works</a>
         <a href="#" className="text-white/80 hover:text-white transition-colors">About Us</a>
         <a href="#" className="text-white/80 hover:text-white transition-colors">Contacts</a>
+        <ThemeToggle />
         <button onClick={() => navigate('/auth')} className="btn-primary">
           Sign In
         </button>

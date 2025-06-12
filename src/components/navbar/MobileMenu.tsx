@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { LogOut, Home, Link2, Folder, List, Eye, Settings } from 'lucide-react';
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { ThemeToggle } from '../ThemeToggle';
 
 interface MobileMenuProps {
   user: any;
@@ -37,9 +38,9 @@ const MobileMenu = ({ user, isOpen }: MobileMenuProps) => {
   if (!isOpen) return null;
 
   return (
-    <div className="md:hidden pt-4">
+    <div className="md:hidden pt-4 bg-secondary-light border-t border-white/10">
       {user ? (
-        <div className="flex flex-col space-y-4">
+        <div className="flex flex-col space-y-4 p-4">
           {/* User Info */}
           <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5">
             <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-medium">
@@ -75,6 +76,11 @@ const MobileMenu = ({ user, isOpen }: MobileMenuProps) => {
             </button>
           </div>
 
+          {/* Theme Toggle */}
+          <div className="flex justify-center py-2">
+            <ThemeToggle />
+          </div>
+
           <hr className="border-white/10" />
 
           <button onClick={handleSignOut} className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-red-500/10 transition-colors text-left text-red-400">
@@ -83,12 +89,18 @@ const MobileMenu = ({ user, isOpen }: MobileMenuProps) => {
           </button>
         </div>
       ) : (
-        <div className="flex flex-col space-y-4">
+        <div className="flex flex-col space-y-4 p-4">
           <a href="/" className="text-white/80 hover:text-white transition-colors">Home</a>
           <a href="#" className="text-white/80 hover:text-white transition-colors">Features</a>
           <a href="#" className="text-white/80 hover:text-white transition-colors">How it works</a>
           <a href="#" className="text-white/80 hover:text-white transition-colors">About Us</a>
           <a href="#" className="text-white/80 hover:text-white transition-colors">Contacts</a>
+          
+          {/* Theme Toggle */}
+          <div className="flex justify-center py-2">
+            <ThemeToggle />
+          </div>
+          
           <button onClick={() => navigate('/auth')} className="btn-primary w-full">
             Sign In
           </button>

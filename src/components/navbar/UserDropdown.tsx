@@ -89,7 +89,7 @@ const UserDropdown = ({ user }: UserDropdownProps) => {
             className="fixed inset-0 z-40" 
             onClick={() => setIsOpen(false)}
           />
-          <div className="absolute right-0 mt-2 w-64 glass-card border border-white/10 rounded-lg shadow-lg z-50">
+          <div className="absolute right-0 mt-2 w-64 bg-secondary-light border border-white/10 rounded-lg shadow-lg z-50">
             <div className="p-4 border-b border-white/10">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-medium">
