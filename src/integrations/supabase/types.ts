@@ -156,6 +156,61 @@ export type Database = {
           id_provider: number | null
           id_src: number
           ratings: number | null
+        }
+        Insert: {
+          AI_summary?: string | null
+          AI_think?: string | null
+          id?: number
+          id_area?: number | null
+          id_cat?: number | null
+          id_provider?: number | null
+          id_src: number
+          ratings?: number | null
+        }
+        Update: {
+          AI_summary?: string | null
+          AI_think?: string | null
+          id?: number
+          id_area?: number | null
+          id_cat?: number | null
+          id_provider?: number | null
+          id_src?: number
+          ratings?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "caegories_tags_id_area_fkey"
+            columns: ["id_area"]
+            isOneToOne: false
+            referencedRelation: "areas"
+            referencedColumns: ["id_area"]
+          },
+          {
+            foreignKeyName: "categories_tags_id_cat_fkey"
+            columns: ["id_cat"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "categories_tags_id_src_fkey"
+            columns: ["id_src"]
+            isOneToOne: true
+            referencedRelation: "main_table"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      categories_tags_copy: {
+        Row: {
+          AI_summary: string | null
+          AI_think: string | null
+          id: number
+          id_area: number | null
+          id_cat: number | null
+          id_provider: number | null
+          id_src: number
+          ratings: number | null
           tag_3: number | null
           tag_4: number | null
           tag_5: number | null
@@ -188,17 +243,45 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "caegories_tags_id_area_fkey"
+            foreignKeyName: "categories_tags_copy_id_area_fkey"
             columns: ["id_area"]
             isOneToOne: false
             referencedRelation: "areas"
             referencedColumns: ["id_area"]
           },
           {
-            foreignKeyName: "categories_tags_id_src_fkey"
+            foreignKeyName: "categories_tags_copy_id_cat_fkey"
+            columns: ["id_cat"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "categories_tags_copy_id_src_fkey"
             columns: ["id_src"]
             isOneToOne: true
             referencedRelation: "main_table"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "categories_tags_copy_tag_3_fkey"
+            columns: ["tag_3"]
+            isOneToOne: false
+            referencedRelation: "sub_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "categories_tags_copy_tag_4_fkey"
+            columns: ["tag_4"]
+            isOneToOne: false
+            referencedRelation: "sub_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "categories_tags_copy_tag_5_fkey"
+            columns: ["tag_5"]
+            isOneToOne: false
+            referencedRelation: "sub_categories"
             referencedColumns: ["id"]
           },
         ]
@@ -757,6 +840,49 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "resource_types"
             referencedColumns: ["resource_id"]
+          },
+        ]
+      }
+      site_tags: {
+        Row: {
+          id: number
+          id_src: number
+          tag_type: number
+          tag_value: number
+        }
+        Insert: {
+          id?: number
+          id_src: number
+          tag_type: number
+          tag_value: number
+        }
+        Update: {
+          id?: number
+          id_src?: number
+          tag_type?: number
+          tag_value?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_site_tags_id_src"
+            columns: ["id_src"]
+            isOneToOne: false
+            referencedRelation: "categories_tags"
+            referencedColumns: ["id_src"]
+          },
+          {
+            foreignKeyName: "site_tags_id_src_fkey"
+            columns: ["id_src"]
+            isOneToOne: false
+            referencedRelation: "main_table"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "site_tags_tag_value_fkey"
+            columns: ["tag_value"]
+            isOneToOne: false
+            referencedRelation: "sub_categories"
+            referencedColumns: ["id"]
           },
         ]
       }

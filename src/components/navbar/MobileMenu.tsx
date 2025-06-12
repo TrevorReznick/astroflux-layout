@@ -1,0 +1,101 @@
+
+import { useNavigate } from 'react-router-dom';
+import { LogOut, Home, Link2, Folder, List, Eye, Settings } from 'lucide-react';
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+
+interface MobileMenuProps {
+  user: any;
+  isOpen: boolean;
+}
+
+const MobileMenu = ({ user, isOpen }: MobileMenuProps) => {
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+      navigate('/auth');
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
+
+  const getUserDisplayName = () => {
+    return user?.user_metadata?.full_name || 
+           user?.user_metadata?.name || 
+           user?.email?.split('@')[0] || 
+           'User';
+  };
+
+  const getUserInitials = () => {
+    const name = getUserDisplayName();
+    return name.charAt(0).toUpperCase();
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="md:hidden pt-4">
+      {user ? (
+        <div className="flex flex-col space-y-4">
+          {/* User Info */}
+          <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5">
+            <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-medium">
+              {getUserInitials()}
+            </div>
+            <div>
+              <p className="font-medium text-white">{getUserDisplayName()}</p>
+              <p className="text-sm text-white/60">{user?.email}</p>
+            </div>
+          </div>
+
+          {/* Navigation Links */}
+          <div className="space-y-2">
+            <button onClick={() => navigate('/')} className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors text-left">
+              <Home className="w-4 h-4 text-white/70" />
+              <span className="text-white/80">Dashboard</span>
+            </button>
+            <button onClick={() => navigate('/links')} className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors text-left">
+              <Eye className="w-4 h-4 text-white/70" />
+              <span className="text-white/80">Esplora Links</span>
+            </button>
+            <button onClick={() => navigate('/#collections')} className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors text-left">
+              <Folder className="w-4 h-4 text-white/70" />
+              <span className="text-white/80">Le mie Collezioni</span>
+            </button>
+            <button onClick={() => navigate('/#lists')} className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors text-left">
+              <List className="w-4 h-4 text-white/70" />
+              <span className="text-white/80">Le mie Liste</span>
+            </button>
+            <button onClick={() => navigate('/settings')} className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors text-left">
+              <Settings className="w-4 h-4 text-white/70" />
+              <span className="text-white/80">Impostazioni</span>
+            </button>
+          </div>
+
+          <hr className="border-white/10" />
+
+          <button onClick={handleSignOut} className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-red-500/10 transition-colors text-left text-red-400">
+            <LogOut className="w-4 h-4" />
+            <span>Sign Out</span>
+          </button>
+        </div>
+      ) : (
+        <div className="flex flex-col space-y-4">
+          <a href="/" className="text-white/80 hover:text-white transition-colors">Home</a>
+          <a href="#" className="text-white/80 hover:text-white transition-colors">Features</a>
+          <a href="#" className="text-white/80 hover:text-white transition-colors">How it works</a>
+          <a href="#" className="text-white/80 hover:text-white transition-colors">About Us</a>
+          <a href="#" className="text-white/80 hover:text-white transition-colors">Contacts</a>
+          <button onClick={() => navigate('/auth')} className="btn-primary w-full">
+            Sign In
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default MobileMenu;
