@@ -34,7 +34,7 @@ export function ThemeToggle() {
       themeStore.set({ theme, systemTheme })
     } else {
       root.classList.add(theme)
-      themeStore.set({ theme, systemTheme: theme === 'system' ? 'light' : 'dark' })
+      themeStore.set({ theme, systemTheme: 'light' })
     }
 
     localStorage.setItem('ui-theme', theme)
