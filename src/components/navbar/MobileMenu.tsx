@@ -23,6 +23,13 @@ const MobileMenu = ({ user, isOpen }: MobileMenuProps) => {
     }
   };
 
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const getUserDisplayName = () => {
     return user?.user_metadata?.full_name || 
            user?.user_metadata?.name || 
@@ -90,11 +97,36 @@ const MobileMenu = ({ user, isOpen }: MobileMenuProps) => {
         </div>
       ) : (
         <div className="flex flex-col space-y-4 p-4">
-          <a href="/" className="text-white/80 hover:text-white transition-colors">Home</a>
-          <a href="#" className="text-white/80 hover:text-white transition-colors">Features</a>
-          <a href="#" className="text-white/80 hover:text-white transition-colors">How it works</a>
-          <a href="#" className="text-white/80 hover:text-white transition-colors">About Us</a>
-          <a href="#" className="text-white/80 hover:text-white transition-colors">Contacts</a>
+          <button 
+            onClick={() => scrollToSection('home')} 
+            className="text-white/80 hover:text-white transition-colors text-left"
+          >
+            Home
+          </button>
+          <button 
+            onClick={() => scrollToSection('features')} 
+            className="text-white/80 hover:text-white transition-colors text-left"
+          >
+            Features
+          </button>
+          <button 
+            onClick={() => scrollToSection('how-to-use')} 
+            className="text-white/80 hover:text-white transition-colors text-left"
+          >
+            How it works
+          </button>
+          <button 
+            onClick={() => scrollToSection('about')} 
+            className="text-white/80 hover:text-white transition-colors text-left"
+          >
+            About Us
+          </button>
+          <button 
+            onClick={() => scrollToSection('contacts')} 
+            className="text-white/80 hover:text-white transition-colors text-left"
+          >
+            Contacts
+          </button>
           
           {/* Theme Toggle */}
           <div className="flex justify-center py-2">
