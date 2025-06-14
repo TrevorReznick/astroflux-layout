@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from "@/integrations/supabase/client";
-import Navbar from '../components/Navbar';
-import Dashboard from '../components/Dashboard';
+import Navbar from '@/components/Navbar';
+import Dashboard from '@/components/Dashboard';
+import Footer from '@/components/Footer';
 import { 
   Rocket, Zap, Box, Trophy, Users, ThumbsUp, 
   Monitor, ShoppingBag, Star, Sparkles, FolderPlus, 
@@ -535,10 +536,29 @@ const Index = () => {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
+      setLoading(false);
     });
 
     return () => subscription.unsubscribe();
   }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-white">Loading...</div>
+      </div>
+    );
+  }
+
+  if (user) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-secondary via-secondary-light to-primary/20">
+        <Navbar />
+        <Dashboard />
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen">
