@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from "@/integrations/supabase/client";
@@ -9,7 +10,7 @@ import {
   Monitor, ShoppingBag, Star, Sparkles, FolderPlus, 
   FileSearch, Mail, ListChecks, BookOpen, CheckCircle,
   Download, Chrome, Globe, Play, Circle,
-  Code, Server, Cpu, Cloud, Database, Shield
+  Code, Server, Cpu, Cloud, Database, Shield, User
 } from 'lucide-react';
 
 const FeatureCard = ({ icon: Icon, title, description }: { icon: any, title: string, description: string }) => (
@@ -187,52 +188,107 @@ const Landing = () => {
         <div className="container mx-auto">
           <div className="text-center mb-16">
             <p className="text-primary text-sm uppercase tracking-wide mb-4">Coming Soon</p>
-            <h2 className="text-4xl font-bold mb-6">Workflow Recorder</h2>
+            <h2 className="text-4xl font-bold mb-6">Advanced Features</h2>
             <p className="text-white/70 text-lg max-w-3xl mx-auto">
-              Record, analyze, and optimize your digital workflows. Capture your browsing patterns and get AI-powered insights to improve your productivity.
+              We're working on exciting new features to enhance your productivity and showcase your digital presence.
             </p>
           </div>
           
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="relative">
-              <div className="glass-card p-8 rounded-2xl">
-                <img 
-                  src="https://images.unsplash.com/photo-1518770660439-4636190af475" 
-                  alt="Workflow analysis" 
-                  className="w-full h-80 object-cover rounded-lg"
-                />
-                <div className="absolute top-12 left-12 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium flex items-center gap-2">
-                  <Circle className="h-3 w-3 fill-current" />
-                  Recording
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+            {/* Workflow Recorder */}
+            <div className="space-y-6">
+              <div className="text-center mb-8">
+                <h3 className="text-2xl font-bold mb-4">Workflow Recorder</h3>
+                <p className="text-white/70">
+                  Record, analyze, and optimize your digital workflows with AI-powered insights.
+                </p>
+              </div>
+              
+              <div className="relative">
+                <div className="glass-card p-8 rounded-2xl">
+                  <img 
+                    src="https://images.unsplash.com/photo-1518770660439-4636190af475" 
+                    alt="Workflow analysis" 
+                    className="w-full h-64 object-cover rounded-lg"
+                  />
+                  <div className="absolute top-12 left-12 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium flex items-center gap-2">
+                    <Circle className="h-3 w-3 fill-current" />
+                    Recording
+                  </div>
                 </div>
               </div>
-            </div>
-            
-            <div className="space-y-6">
-              <FeatureListItem 
-                icon={Circle} 
-                title="Session Recording" 
-                description="Record your browsing sessions to understand how you navigate between different tools and websites during your work."
-              />
-              <FeatureListItem 
-                icon={Sparkles} 
-                title="Pattern Analysis" 
-                description="AI analyzes your workflow patterns to identify inefficiencies and suggest optimizations for better productivity."
-              />
-              <FeatureListItem 
-                icon={Trophy} 
-                title="Productivity Insights" 
-                description="Get detailed reports on your digital habits with suggestions for improving focus and eliminating time-wasting activities."
-              />
               
-              <div className="pt-6">
-                <button className="btn-primary px-6 py-3 opacity-50 cursor-not-allowed">
-                  <Play className="h-4 w-4 mr-2" />
-                  Coming Soon
-                </button>
-                <p className="text-sm text-white/50 mt-2">Join the waitlist to be notified when available</p>
+              <div className="space-y-4">
+                <FeatureListItem 
+                  icon={Circle} 
+                  title="Session Recording" 
+                  description="Record your browsing sessions to understand navigation patterns and optimize workflows."
+                />
+                <FeatureListItem 
+                  icon={Sparkles} 
+                  title="Pattern Analysis" 
+                  description="AI analyzes your workflow patterns to identify inefficiencies and suggest optimizations."
+                />
+                <FeatureListItem 
+                  icon={Trophy} 
+                  title="Productivity Insights" 
+                  description="Get detailed reports on your digital habits with actionable improvement suggestions."
+                />
               </div>
             </div>
+
+            {/* Portfolio Creator */}
+            <div className="space-y-6">
+              <div className="text-center mb-8">
+                <h3 className="text-2xl font-bold mb-4">Portfolio Creator</h3>
+                <p className="text-white/70">
+                  Create stunning professional portfolios showcasing your curated resources and projects.
+                </p>
+              </div>
+              
+              <div className="relative">
+                <div className="glass-card p-8 rounded-2xl">
+                  <img 
+                    src="https://images.unsplash.com/photo-1460925895917-afdab827c52f" 
+                    alt="Portfolio creation" 
+                    className="w-full h-64 object-cover rounded-lg"
+                  />
+                  <div className="absolute top-12 right-12 bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">
+                    Design Mode
+                  </div>
+                </div>
+              </div>
+              
+              <div className="space-y-4">
+                <FeatureListItem 
+                  icon={User} 
+                  title="Professional Showcase" 
+                  description="Transform your collections into beautiful portfolio pages that highlight your expertise and interests."
+                />
+                <FeatureListItem 
+                  icon={Sparkles} 
+                  title="AI-Generated Content" 
+                  description="Automatically generate compelling descriptions and organize your work with intelligent content suggestions."
+                />
+                <FeatureListItem 
+                  icon={Globe} 
+                  title="Custom Domains" 
+                  description="Publish your portfolio with custom domains and professional themes to make a lasting impression."
+                />
+              </div>
+            </div>
+          </div>
+          
+          <div className="text-center">
+            <button className="btn-primary px-6 py-3 opacity-50 cursor-not-allowed mr-4">
+              <Play className="h-4 w-4 mr-2" />
+              Workflow Recorder - Coming Soon
+            </button>
+            <button className="btn-secondary px-6 py-3 opacity-50 cursor-not-allowed">
+              <User className="h-4 w-4 mr-2" />
+              Portfolio Creator - Coming Soon
+            </button>
+            <p className="text-sm text-white/50 mt-4">Join the waitlist to be notified when these features become available</p>
           </div>
         </div>
       </section>
