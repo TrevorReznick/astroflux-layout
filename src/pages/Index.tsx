@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from "@/integrations/supabase/client";
@@ -8,7 +7,7 @@ import {
   Rocket, Zap, Box, Trophy, Users, ThumbsUp, 
   Monitor, ShoppingBag, Star, Sparkles, FolderPlus, 
   FileSearch, Mail, ListChecks, BookOpen, CheckCircle,
-  Download, Chrome, Firefox, Safari, Play, Record,
+  Download, Chrome, Globe, Play, Circle,
   Code, Server, Cpu, Cloud, Database, Shield
 } from 'lucide-react';
 
@@ -160,8 +159,8 @@ const Landing = () => {
                 <h3 className="text-lg font-semibold mb-4">Download for your browser:</h3>
                 <div className="grid grid-cols-1 gap-3">
                   <BrowserButton icon={Chrome} name="Chrome" />
-                  <BrowserButton icon={Firefox} name="Firefox" disabled />
-                  <BrowserButton icon={Safari} name="Safari" disabled />
+                  <BrowserButton icon={Globe} name="Firefox" disabled />
+                  <BrowserButton icon={Globe} name="Safari" disabled />
                 </div>
               </div>
             </div>
@@ -202,7 +201,7 @@ const Landing = () => {
                   className="w-full h-80 object-cover rounded-lg"
                 />
                 <div className="absolute top-12 left-12 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium flex items-center gap-2">
-                  <Record className="h-3 w-3" />
+                  <Circle className="h-3 w-3 fill-current" />
                   Recording
                 </div>
               </div>
@@ -210,7 +209,7 @@ const Landing = () => {
             
             <div className="space-y-6">
               <FeatureListItem 
-                icon={Record} 
+                icon={Circle} 
                 title="Session Recording" 
                 description="Record your browsing sessions to understand how you navigate between different tools and websites during your work."
               />
