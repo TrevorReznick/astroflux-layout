@@ -316,7 +316,7 @@ const Landing = () => {
                 description="Organize your resources into custom collections and lists right from your Dashboard"
               />
               <StepCard 
-                icon={Record}
+                icon={Circle}
                 number={4} 
                 title="Record workflows (Coming Soon)" 
                 description="Use our workflow recorder to analyze and optimize your productivity patterns"
