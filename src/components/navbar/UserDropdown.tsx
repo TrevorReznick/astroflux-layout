@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, User, Settings, Home, Link2, Folder, List, Eye, ChevronDown } from 'lucide-react';
+import { LogOut, User, Settings, Home, Link2, Folder, List, Eye, ChevronDown, Briefcase } from 'lucide-react';
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -35,36 +35,79 @@ const UserDropdown = ({ user }: UserDropdownProps) => {
     return name.charAt(0).toUpperCase();
   };
 
+  const handlePortfolioClick = () => {
+    toast.info("Portfolio Creator sarà disponibile presto!", {
+      description: "Stiamo lavorando per portarti questa fantastica funzionalità."
+    });
+    setIsOpen(false);
+  };
+
+  const handleSettingsClick = () => {
+    toast.info("Impostazioni saranno disponibili presto!", {
+      description: "Stiamo preparando il pannello delle impostazioni."
+    });
+    setIsOpen(false);
+  };
+
   const menuItems = [
     { 
       icon: Home, 
       label: 'Dashboard', 
-      onClick: () => navigate('/') 
+      onClick: () => {
+        navigate('/');
+        setIsOpen(false);
+      }
     },
     { 
       icon: Link2, 
       label: 'I miei Link', 
-      onClick: () => navigate('/#links') 
+      onClick: () => {
+        const linksSection = document.getElementById('links');
+        if (linksSection) {
+          linksSection.scrollIntoView({ behavior: 'smooth' });
+        }
+        setIsOpen(false);
+      }
     },
     { 
       icon: Folder, 
       label: 'Le mie Collezioni', 
-      onClick: () => navigate('/#collections') 
+      onClick: () => {
+        const collectionsSection = document.getElementById('collections');
+        if (collectionsSection) {
+          collectionsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+        setIsOpen(false);
+      }
     },
     { 
       icon: List, 
       label: 'Le mie Liste', 
-      onClick: () => navigate('/#lists') 
+      onClick: () => {
+        const listsSection = document.getElementById('lists');
+        if (listsSection) {
+          listsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+        setIsOpen(false);
+      }
     },
     { 
       icon: Eye, 
       label: 'Esplora Links', 
-      onClick: () => navigate('/links') 
+      onClick: () => {
+        navigate('/links');
+        setIsOpen(false);
+      }
+    },
+    { 
+      icon: Briefcase, 
+      label: 'Portfolio Creator', 
+      onClick: handlePortfolioClick
     },
     { 
       icon: Settings, 
       label: 'Impostazioni', 
-      onClick: () => navigate('/settings') 
+      onClick: handleSettingsClick
     },
   ];
 
@@ -106,10 +149,7 @@ const UserDropdown = ({ user }: UserDropdownProps) => {
               {menuItems.map((item, index) => (
                 <button
                   key={index}
-                  onClick={() => {
-                    item.onClick();
-                    setIsOpen(false);
-                  }}
+                  onClick={item.onClick}
                   className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors text-left"
                 >
                   <item.icon className="w-4 h-4 text-white/70" />
