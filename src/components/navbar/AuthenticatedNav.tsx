@@ -13,7 +13,7 @@ const AuthenticatedNav = ({ user }: AuthenticatedNavProps) => {
       <div className="hidden md:flex items-center space-x-8">
         <a href="/" className="text-white/80 hover:text-white transition-colors">Dashboard</a>
         <a href="/links" className="text-white/80 hover:text-white transition-colors">Esplora Links</a>
-        <a href="#" className="text-white/80 hover:text-white transition-colors">About Us</a>
+        <a href="/pages" className="text-white/80 hover:text-white transition-colors">Pagine</a>
         <a href="#" className="text-white/80 hover:text-white transition-colors">Contacts</a>
         <ThemeToggle />
         <UserDropdown user={user} />

@@ -11,6 +11,7 @@ import ListDetail from "./pages/ListDetail";
 import LinksDisplay from "./pages/LinksDisplay";
 import AllCollections from "./pages/AllCollections";
 import AllLists from "./pages/AllLists";
+import PagesList from "./pages/PagesList";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +28,7 @@ const App = () => (
           <Route path="/collections" element={<AllCollections />} />
           <Route path="/lists" element={<AllLists />} />
           <Route path="/list/:id" element={<ListDetail />} />
+          <Route path="/pages" element={<PagesList />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

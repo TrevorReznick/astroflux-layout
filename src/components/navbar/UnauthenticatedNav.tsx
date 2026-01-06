@@ -46,6 +46,12 @@ const UnauthenticatedNav = () => {
         >
           Contacts
         </button>
+        <button 
+          onClick={() => navigate('/pages')} 
+          className="text-white/80 hover:text-white transition-colors"
+        >
+          Pagine
+        </button>
         <ThemeToggle />
         <button onClick={() => navigate('/auth')} className="btn-primary">
           Sign In
